@@ -7,3 +7,9 @@ spring:
         git:
           uri: https://github.com/RostyslavKhasanov/config-server
           searchPaths: configs/{application}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'refresh'
