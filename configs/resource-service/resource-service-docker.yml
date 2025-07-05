@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+  application:
+    name: resource-service
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE}
+
+localstack:
+  s3:
+    url: ${LOCAL_STACK_S3_URL}
+    bucket-name: ${LOCAL_STACK_S3_BUCKET_NAME}
+    region: ${LOCAL_STACK_S3_DEFAULT_REGION}
+    accessKey: ${LOCAL_STACK_AWS_ACCESS_KEY_ID}
+    secretKey: ${LOCAL_STACK_AWS_SECRET_ACCESS_KEY}
