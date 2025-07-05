@@ -6,4 +6,4 @@ spring:
       server:
         git:
           uri: https://github.com/RostyslavKhasanov/config-server
-          searchPaths: configs
+          searchPaths: configs/{application}
