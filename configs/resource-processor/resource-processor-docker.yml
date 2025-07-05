@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: resource-processor
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST}
+    port: ${SPRING_RABBITMQ_PORT}
+    username: ${SPRING_RABBITMQ_USER}
+    password: ${SPRING_RABBITMQ_PASS}
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE}
+    registryFetchIntervalSeconds: 10
+    initialInstanceInfoReplicationIntervalSeconds: 30
+    leaseRenewalIntervalInSeconds: 10
+
+resource-service:
+  baseUrl: http://gateway/resource-service
+  resourcesUrl: ${resource-service.baseUrl}/resources
+
+song-service:
+  baseUrl: http://gateway/song-service
+  songsUrl: ${song-service.baseUrl}/songs

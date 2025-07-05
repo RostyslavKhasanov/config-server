@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: resource-processor
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+server:
+  port: 8083
+
+resource-service:
+  baseUrl: http://gateway/resource-service
+  resourcesUrl: ${resource-service.baseUrl}/resources
+
+song-service:
+  baseUrl: http://gateway/song-service
+  songsUrl: ${song-service.baseUrl}/songs
