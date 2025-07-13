@@ -20,7 +20,39 @@ server:
 localstack:
   s3:
     url: http://localhost:4566
-    bucket-name: resource-bucket
     region: us-east-1
     accessKey: test
     secretKey: test
+
+storage-service:
+  baseUrl: http://localhost:8087
+  storagesUrl: ${storage-service.baseUrl}/storages
+  stub-buckets-map:
+    STAGING: resource-bucket-staging
+    PERMANENT: resource-bucket-permanent
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      storageServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 2
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+management:
+  security:
+    enabled: false
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoint:
+    health:
+      show-details: "ALWAYS"
+  endpoints:
+    web:
+      exposure:
+        include: "*"

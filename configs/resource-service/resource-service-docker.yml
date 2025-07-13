@@ -18,10 +18,13 @@ management:
   endpoint:
     health:
       show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: health
+        include: "*"
 
 eureka:
   client:
@@ -31,7 +34,25 @@ eureka:
 localstack:
   s3:
     url: ${LOCAL_STACK_S3_URL}
-    bucket-name: ${LOCAL_STACK_S3_BUCKET_NAME}
     region: ${LOCAL_STACK_S3_DEFAULT_REGION}
     accessKey: ${LOCAL_STACK_AWS_ACCESS_KEY_ID}
     secretKey: ${LOCAL_STACK_AWS_SECRET_ACCESS_KEY}
+
+storage-service:
+  baseUrl: http://gateway/storage-service
+  storagesUrl: ${storage-service.baseUrl}/storages
+  stub-buckets-map:
+    STAGING: resource-bucket-staging
+    PERMANENT: resource-bucket-permanent
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      storageServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 2
+        automaticTransitionFromOpenToHalfOpenEnabled: true
